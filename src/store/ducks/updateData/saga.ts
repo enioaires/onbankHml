@@ -21,8 +21,8 @@ import { showSuccessModalAction } from '../successModal/actions';
 import callWrapperService from '../../../utils/callWrapperService';
 import { showRegisterCardBizModalAction } from '../card/actions';
 
-const requestUpdateUserData = (payload: any, accountId: string) => {
-    return api.put(`/account/${accountId}`, payload);
+const requestUpdateUserData = (payload: any) => {
+    return api.put(`/account`, payload);
 };
 
 const requestUpdateUserPhone = (payload: any) => {
@@ -30,21 +30,13 @@ const requestUpdateUserPhone = (payload: any) => {
 };
 
 function* updateUserData(action: UpdateUserDataAction) {
-    const accountId: string | null = yield select(
-        (state: IApplicationState) => state.auth.accountId
-    );
-
     const cardBizStatus: string = yield select(
         (state: IApplicationState) => state.user.data.client.cardBiz
     );
 
-    const resp = yield callWrapperService(
-        requestUpdateUserData,
-        {
-            ...action.payload
-        },
-        accountId
-    );
+    const resp = yield callWrapperService(requestUpdateUserData, {
+        ...action.payload
+    });
 
     // console.log('updateData', JSON.stringify(resp, null, 2));
     // console.log(JSON.stringify(action.payload, null, 2));

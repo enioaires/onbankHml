@@ -32,7 +32,7 @@ import {
     TransactionCodeTitle,
     TransactionCode,
     ObankFooterText,
-    SubTitle
+    SubTitle,
 } from './ReceiptModal.styles';
 import { useFetch } from '../../../../../../../utils/useFetch';
 import { IApplicationState } from '../../../../../../../store/types';
@@ -178,36 +178,34 @@ const ReceiptModal = (props: ReceiptModalProps) => {
                                         Comprovante de {'\n'}
                                         {operationTypeLabel[type]} via PIX
                                     </Title>
+                                </View>
+                                <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 }}>
                                     <SubTitle>
                                         {format(
                                             new Date(
                                                 receipt.paymentDateTime
                                             ),
-                                            'dd/MM/yyyy HH:mm:ss'
+                                            'dd/MM/yyyy HH:mm'
                                         )}
                                     </SubTitle>
+                                    <TransactionContainer>
+                                        <Value topValue>
+                                            R${' '}
+                                            {formatCurrency(Number(receipt.amount))}
+                                        </Value>
+                                    </TransactionContainer>
                                 </View>
-                                <TransactionContainer>
-                                    <Label>Valor</Label>
-                                    <Value topValue>
-                                        R${' '}
-                                        {formatCurrency(Number(receipt.amount))}
-                                    </Value>
-                                </TransactionContainer>
-
                                 <Card>
                                     <CardTitle>Origem</CardTitle>
-                                    <View style={{ marginTop: 6 }}>
-                                        <Label>Nome</Label>
-                                        <Value>
+                                    <View style={{ marginTop: 6, display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'flex-end' }}>
+                                        <Value marginBottom="0px">
                                             {type === 'transfer'
                                                 ? capitalize(userName)
                                                 : receipt.payerName}
                                         </Value>
                                     </View>
                                     <View style={{ marginTop: 6 }}>
-                                        <Label>Instituição</Label>
-                                        <Value>
+                                        <Value marginBottom="10px">
                                             {type === 'transfer'
                                                 ? 'Onbank'
                                                 : receipt.origin}
@@ -216,9 +214,9 @@ const ReceiptModal = (props: ReceiptModalProps) => {
                                     {type === 'transfer' && (
                                         <View
                                             style={{
-                                                marginTop: 6,
+                                                marginTop: 0,
                                                 flexDirection: 'row',
-                                                paddingTop: 10
+                                                paddingTop: 0
                                             }}
                                         >
                                             <View style={{ width: '50%' }}>
@@ -246,8 +244,7 @@ const ReceiptModal = (props: ReceiptModalProps) => {
                                 {type === 'transfer' && (
                                     <Card>
                                         <CardTitle>Destino</CardTitle>
-                                        <View style={{ marginTop: 6 }}>
-                                            <Label>Nome</Label>
+                                        <View style={{ marginTop: 0 }}>
                                             <Value>
                                                 {receipt.receiverName}
                                             </Value>
@@ -264,7 +261,6 @@ const ReceiptModal = (props: ReceiptModalProps) => {
                                             </Value>
                                         </View>
                                         <View>
-                                            <Label>Instituição</Label>
                                             <Value numberOfLines={1}>
                                                 {receipt.origin}
                                             </Value>

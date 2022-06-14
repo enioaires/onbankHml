@@ -376,6 +376,9 @@ export type PerfilStackList = {
         code?: string;
         oldPhoneNumber?: string;
         registerKey?: boolean;
+        loadingPassword?: boolean;
+        fromTransactionPassword?: boolean;
+        fromAccessPassword?: boolean;
     };
     ZipCode: { isCardRequest?: boolean };
     Address: {

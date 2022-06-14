@@ -39,12 +39,12 @@ import { storeReceiptAction } from '../receipt/actions';
 // Utils
 import callWrapperService from '../../../utils/callWrapperService';
 
-const requestLatestRecharge = (accountId: string) => {
-    return api.get(`/phone-recharge/recharge/statements/${accountId}`);
+const requestLatestRecharge = () => {
+    return api.get(`/phone-recharge/recharge/statements`);
 };
 
-const requestContactsRecharge = (accountId: string) => {
-    return api.get(`/phone-recharge/recharge/contacts/${accountId}`);
+const requestContactsRecharge = () => {
+    return api.get(`/phone-recharge/recharge/contacts`);
 };
 
 const requestOperators = (phoneNumber: string) => {
@@ -65,23 +65,18 @@ const requestValues = (phoneNumber: string, operatorId: string) => {
     });
 };
 
-const requestRecharge = (payload: IRechargePayload, accountId: string) => {
+const requestRecharge = (payload: IRechargePayload) => {
     return api.post('v2/phone-recharge/recharge', {
-        ...payload,
-        accountId
+        ...payload
     });
 };
 
-const requestGetRechargeContactsDetail = (accountId: string, name: string) => {
-    return api.get(`/phone-recharge/recharge/contacts/${accountId}/${name}`);
+const requestGetRechargeContactsDetail = (name: string) => {
+    return api.get(`/phone-recharge/recharge/contacts/${name}`);
 };
 
 function* latestRecharge() {
-    const accountId: string | null = yield select(
-        (state: IApplicationState) => state.auth.accountId
-    );
-
-    const resp = yield callWrapperService(requestLatestRecharge, accountId);
+    const resp = yield callWrapperService(requestLatestRecharge);
 
     if (resp?.data) {
         yield put(didLatestRechargeSucceedAction(resp.data.reverse()));
@@ -91,11 +86,7 @@ function* latestRecharge() {
 }
 
 function* contactsRecharge() {
-    const accountId: string | null = yield select(
-        (state: IApplicationState) => state.auth.accountId
-    );
-
-    const resp = yield callWrapperService(requestContactsRecharge, accountId);
+    const resp = yield callWrapperService(requestContactsRecharge);
 
     // console.log('recharge contacts', JSON.stringify(resp, null, 2));
 
@@ -157,10 +148,6 @@ function* rechargeValues(action: RequestRechargeValuesAction) {
 }
 
 function* recharge(action: RequestRechargeAction) {
-    const accountId: string | null = yield select(
-        (state: IApplicationState) => state.auth.accountId
-    );
-
     const rechargePayload: IRechargePayload = yield select(
         (state: IApplicationState) => state.recharge.payload
     );
@@ -174,7 +161,7 @@ function* recharge(action: RequestRechargeAction) {
         addContact: rechargePayload.addContact
     };
 
-    const resp = yield callWrapperService(requestRecharge, payload, accountId);
+    const resp = yield callWrapperService(requestRecharge, payload);
 
     if (resp?.data) {
         yield put(didRequestRechargeSucceedAction());
@@ -193,7 +180,7 @@ function* recharge(action: RequestRechargeAction) {
         );
 
         setTimeout(() => {
-            action.navigation.push('General', {
+            action.navigation.replace('General', {
                 screen: 'Receipt'
             });
         }, 400);
@@ -210,13 +197,8 @@ function* recharge(action: RequestRechargeAction) {
 }
 
 function* getRechargeContactsDetail(action: GetRechargeContactsDetailAction) {
-    const accountId: string | null = yield select(
-        (state: IApplicationState) => state.auth.accountId
-    );
-
     const resp: any = yield callWrapperService(
         requestGetRechargeContactsDetail,
-        accountId,
         action.name
     );
 

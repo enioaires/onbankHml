@@ -8,7 +8,6 @@ const INITIAL_STATE: IUserDataState = {
     data: {
         accountHolderId: '',
         account: {
-            accountId: '',
             account: 0,
             branch: 0,
             mobilePhone: {

@@ -33,7 +33,6 @@ export interface IAuthState {
     didAutoLogin: boolean;
     deviceUUID: string;
     accountHolderId: string | null;
-    accountId: string | null;
     authenticationType: string | undefined;
     keychainCredentials: IKeychainCredentials | null;
     hmlMode: boolean;

@@ -12,7 +12,8 @@ import {
     VALIDATE_TRANSACTION_PASSWORD_FAIL,
     VALIDATE_ACCESS_PASSWORD,
     VALIDATE_ACCESS_PASSWORD_SUCCESS,
-    VALIDATE_ACCESS_PASSWORD_FAIL
+    VALIDATE_ACCESS_PASSWORD_FAIL,
+    UPDATE_PASSWORD_START
 } from './types';
 
 export type ValidateAccessPasswordAction = {
@@ -63,12 +64,20 @@ type ClearPasswordStateAction = {
     type: typeof CLEAR_PASSWORD_STATE;
 };
 
-type UpdateAccessPasswordAction = {
-    type: typeof UPDATE_ACCESS_PASSWORD;
+export type UpdatePasswordStartAction = {
+    type: typeof UPDATE_PASSWORD_START;
 };
 
-type UpdateTransactionPasswordAction = {
+export type UpdateAccessPasswordAction = {
+    type: typeof UPDATE_ACCESS_PASSWORD;
+    code: string;
+    navigation?: any;
+};
+
+export type UpdateTransactionPasswordAction = {
     type: typeof UPDATE_TRANSACTION_PASSWORD;
+    code?: string | null | undefined;
+    navigation?: any;
 };
 
 type DidUpdateSucceedAction = {
@@ -77,6 +86,7 @@ type DidUpdateSucceedAction = {
 
 type DidUpdateFailAction = {
     type: typeof UPDATE_FAILURE;
+    errorMessage?: string | null | undefined;
 };
 
 export type PasswordActions =
@@ -90,6 +100,7 @@ export type PasswordActions =
     | ValidateTransactionPasswordSuccessAction 
     | ValidateTransactionPasswordFailAction 
     | ValidateAccessPasswordAction
+    | UpdatePasswordStartAction
     | ValidateAccessPasswordSuccessAction
     | ValidateAccessPasswordFailAction;
 
@@ -157,18 +168,35 @@ export const clearPasswordStateAction = (): ClearPasswordStateAction => ({
     type: 'CLEAR_PASSWORD_STATE'
 });
 
-export const updateAccessPasswordAction = (): UpdateAccessPasswordAction => ({
-    type: 'UPDATE_ACCESS_PASSWORD'
+export const updatePasswordStartAction = (): UpdatePasswordStartAction => ({
+    type: 'UPDATE_PASSWORD_START'
 });
 
-export const updateTransactionPasswordAction = (): UpdateTransactionPasswordAction => ({
-    type: 'UPDATE_TRANSACTION_PASSWORD'
+export const updateAccessPasswordAction = (
+    code: string,
+    navigation: any = null
+): UpdateAccessPasswordAction => ({
+    type: 'UPDATE_ACCESS_PASSWORD',
+    code,
+    navigation
+});
+
+export const updateTransactionPasswordAction = (
+    code: string | null | undefined = null,
+    navigation: any = null
+): UpdateTransactionPasswordAction => ({
+    type: 'UPDATE_TRANSACTION_PASSWORD',
+    code,
+    navigation
 });
 
 export const didUpdateSucceedAction = (): DidUpdateSucceedAction => ({
     type: 'UPDATE_SUCCESS'
 });
 
-export const didUpdateFailAction = (): DidUpdateFailAction => ({
-    type: 'UPDATE_FAILURE'
+export const didUpdateFailAction = (
+    errorMessage: string | null | undefined = ''
+): DidUpdateFailAction => ({
+    type: 'UPDATE_FAILURE',
+    errorMessage
 });

@@ -266,9 +266,6 @@ function* getAddressByZipcode(action: GetAddressByZipcodeAction) {
 }
 
 function* saveAddress(action: AddAddressAction) {
-    const accountId: string | null = yield select(
-        (state: IApplicationState) => state.auth.accountId
-    );
     const taxId: string = yield select(
         (state: IApplicationState) => state.user.data.client.taxIdentifier.taxId
     );
@@ -289,7 +286,6 @@ function* saveAddress(action: AddAddressAction) {
     const payload = {
         ...addressPayload,
         postalCode: parseInt(addressPayload.postalCode.replace(/\D/g, ''), 10),
-        accountId,
         taxId,
         name,
         phone,

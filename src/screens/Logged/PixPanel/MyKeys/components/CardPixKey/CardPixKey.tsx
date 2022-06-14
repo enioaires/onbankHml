@@ -34,7 +34,7 @@ interface PotabilityLabelProps {
 }
 
 const potabilityLabel: PotabilityLabelProps = {
-    USER_CONFIRMATION_PENDING_PORTABILITY: {
+     USER_CONFIRMATION_PENDING_PORTABILITY: {
         label: 'Doação pendente',
         status: 'Aguardando doação',
         color: '#A2A2A2'

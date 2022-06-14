@@ -38,8 +38,8 @@ const getUserCashbackBalance = () => {
     return api.get('/cashback/balance');
 };
 
-const getUserCashbackStatements = (payload: any) => {
-    return api.get(`/cashback/statements/${payload.accountId}`);
+const getUserCashbackStatements = () => {
+    return api.get(`/cashback/statements`);
 };
 
 const requestUserCashbackCharge = (payload: any) => {
@@ -58,16 +58,7 @@ function* getCashbackBalance() {
 }
 
 function* getCashback() {
-    const accountId: string = yield select(
-        (state: IApplicationState) => state.user.data.account.accountId
-    );
-
-    const payload = { accountId };
-
-    const resp: any = yield callWrapperService(
-        getUserCashbackStatements,
-        payload
-    );
+    const resp: any = yield callWrapperService(getUserCashbackStatements);
     // console.log(resp, JSON.stringify(resp, null, 2));
 
     if (resp?.data) {

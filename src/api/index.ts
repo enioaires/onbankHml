@@ -1,4 +1,5 @@
 import { fetchFactory } from '../utils/fetch';
+//TODO CHANGE TO prd api.onbank.digital before deploy master
 const api = fetchFactory('https://api.onbank.digital');
 api.setHeader('Onbank-Api-Access-Key', 'fcd3f2ec-9bed-4f23-b2bb-0e4a8f5c4649');
 

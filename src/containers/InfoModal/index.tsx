@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, StyleSheet, View, Image, TouchableOpacity } from 'react-native';
 import Modal from 'react-native-modal';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
@@ -51,12 +51,19 @@ const InfoModal: React.FC<IInfoModalProps> = ({ navRef }: IInfoModalProps) => {
         (state: IApplicationState) => state.alert.invertedOptions,
         shallowEqual
     );
-    if (!alertMessage) {
+
+    const [messageAlert, setMessageAlert] = useState<string | null>(null);
+
+    useEffect(() => {
+        setMessageAlert(alertMessage);
+    }, [alertMessage]);
+
+    if (!messageAlert) {
         return null;
     }
     return (
         <Modal
-            isVisible={!!alertMessage}
+            isVisible={!!messageAlert}
             hasBackdrop
             backdropColor="#000"
             backdropOpacity={0.4}
@@ -78,7 +85,7 @@ const InfoModal: React.FC<IInfoModalProps> = ({ navRef }: IInfoModalProps) => {
                 </Text>
 
                 <Text allowFontScaling={false} style={styles.text}>
-                    {alertMessage}
+                    {messageAlert}
                 </Text>
 
                 <TouchableOpacity
@@ -104,7 +111,7 @@ const InfoModal: React.FC<IInfoModalProps> = ({ navRef }: IInfoModalProps) => {
                         } else if (
                             navRef?.current?.getCurrentRoute()?.name ===
                                 'TransactionPassword' &&
-                            !alertMessage.match(/Senha de transação incorreta/g)
+                            !messageAlert.match(/Senha de transação incorreta/g)
                         ) {
                             navRef?.current?.dispatch(StackActions.popToTop());
                         }

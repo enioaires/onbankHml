@@ -35,17 +35,13 @@ import { getInsurancesAction } from '../insurance/actions';
 // Utils
 import callWrapperService from '../../../utils/callWrapperService';
 
-const getUserData = (accountId: string) => {
-    return api.get(`/client/data/${accountId}`);
+const getUserData = () => {
+    return api.get(`/client/data`);
 };
 
 function* onGetUserData() {
-    const accountId: string | null = yield select(
-        (state: IApplicationState) => state.auth.accountId
-    );
-
     const { resp, timeout }: { resp: any; timeout: any } = yield race({
-        resp: callWrapperService(getUserData, accountId),
+        resp: callWrapperService(getUserData),
         timeout: delay(15 * 1000)
     });
 

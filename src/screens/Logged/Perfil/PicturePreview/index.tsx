@@ -48,7 +48,7 @@ const PicturePreview: React.FC<PerfilStackNavigationProps<'Preview'>> = ({
         // Saga Fora
         try {
             const resp = await api.post(
-                `/documents/upload/${upload}/${accountId}`,
+                `/documents/upload/${upload}`,
                 data,
                 false,
                 {

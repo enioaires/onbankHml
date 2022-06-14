@@ -61,11 +61,11 @@ import { GeneralStackNavigationProps } from '../../../routes/Logged/types';
 import { IRechargeService } from '../../../store/ducks/rechargeServices/types';
 import { IInsurance } from '../../../store/ducks/insurance/types';
 import { setAlertMessageAction } from '../../../store/ducks/alert/actions';
-
 import BottomMenu from './components/BottomMenu/BottomMenu';
 import ServiceRecharge from './components/ServiceRecharge/ServiceRecharge';
 
 import PixButton from './components/PixButton/PixButton';
+import TransactionSuccessModal from '../../../containers/TransactionSuccessModal';
 
 const isSmallDevice = isDeviceSmallScreen(850);
 
@@ -228,7 +228,7 @@ const HomeScreen: React.FC<GeneralStackNavigationProps<'Home'>> = ({
                 message:
                     'Para solicitar o seu cartão precisa completar  sua conta',
                 action: {
-                    mainLabel: 'ok',
+                    mainLabel: 'Ok',
                     onPress: () => {}
                 }
             })
@@ -639,6 +639,11 @@ const HomeScreen: React.FC<GeneralStackNavigationProps<'Home'>> = ({
 
     return (
         <View style={styles.screenContainer}>
+            <TransactionSuccessModal
+                navigation={navigation}
+                noReceiptMode
+                noRedirect
+            />
             <CardPromoModal
                 visible={visible}
                 setVisible={(value) => setVisible(value)}
@@ -827,10 +832,17 @@ const HomeScreen: React.FC<GeneralStackNavigationProps<'Home'>> = ({
                                         currentTab === 'pay' && styles.tabActive
                                     ]}
                                 >
-                                    <Image
-                                        source={currentTab === 'pay' ? payIcon : payGrayIcon}
-                                        style={{...styles.tabIcon}}
-                                    />
+                                    <Image source={currentTab === 'pay' ? payIcon : payGrayIcon} style={{...styles.tabIcon}}/>
+                                    {/* <Anticon
+                                        style={{marginRight: 7}}
+                                        name="barcode"
+                                        size={20}
+                                        color={
+                                            currentTab === 'pay'
+                                                ? colors.blue.second
+                                                : colors.text.third
+                                        }
+                                    /> */}
                                     <Text
                                         allowFontScaling={false}
                                         style={[
@@ -851,10 +863,16 @@ const HomeScreen: React.FC<GeneralStackNavigationProps<'Home'>> = ({
                                     ]}
                                     onPress={() => setCurrentTab('receive')}
                                 >
-                                    <Image
-                                        source={currentTab === 'receive' ? receiveIcon : receiveGrayIcon}
-                                        style={styles.tabIcon}
-                                    />
+                                    <Image source={currentTab === 'receive' ? receiveIcon : receiveGrayIcon} style={styles.tabIcon}/>
+                                    {/* <Entypo
+                                        name="credit"
+                                        size={20}
+                                        color={
+                                            currentTab === 'receive'
+                                                ? colors.blue.second
+                                                : colors.text.third
+                                        }
+                                    /> */}
                                     <Text
                                         allowFontScaling={false}
                                         style={[

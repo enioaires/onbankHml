@@ -8,7 +8,6 @@ import {
     ViewStyle,
     View
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 
 // Styles
 import colors from '../../styles/colors';

@@ -6,17 +6,24 @@ import api from '../../../api';
 
 // Types
 import { IApplicationState } from '../../types';
-import { SEND_PHONE_SMS, VALIDATE_SMS_CODE } from './types';
+import {
+    SEND_PHONE_SMS,
+    SEND_PHONE_SMS_PASSWORD,
+    VALIDATE_SMS_CODE
+} from './types';
 
 // Actions
 import {
     didSendSMSSucceedAction,
+    didSendSMSPasswordSucceedAction,
     showSMSModalAction,
     didSendSMSFailAction,
+    didSendSMSPasswordFailAction,
     closeSMSModalAction,
     didValidateSMSSucceedAction,
     didValidateSMSFailAction,
     SendSMSAction,
+    SendSMSPasswordAction,
     ValidateSMSCodeAction
 } from './actions';
 
@@ -24,6 +31,7 @@ import {
 import callWrapperService from '../../../utils/callWrapperService';
 
 const requestSendSMS = (payload: any) => {
+    // TODO remove mock
     // return new Promise((resolve, reject) => {
     //     resolve({ data: { waitingTimeMs: 1232, isValid: false } });
     // });
@@ -34,7 +42,16 @@ const requestSendSMSPerfil = (payload: any) => {
     return api.post('/sms/resend', payload);
 };
 
+const requestSendSMSChangePassword = () => {
+    return api.get('/sms/accesspassword');
+};
+
+const requestSendSMSChangePasswordTransaction = () => {
+    return api.get('/sms/transactionpassword');
+};
+
 const requestValidateSMS = (payload: any) => {
+    // TODO remove mock
     // return new Promise((resolve, reject) => {
     //     resolve(true);
     // });
@@ -195,7 +212,7 @@ function* sendSMS(action: SendSMSAction) {
     if (action.perfil) {
         payload = {
             ...payload,
-            phoneNumber: action.phone!.replace(/\D/g, '')
+            phoneNumber: action.phone?.replace(/\D/g, '')
         };
     }
 
@@ -227,6 +244,40 @@ function* sendSMS(action: SendSMSAction) {
     }
 }
 
+function* sendSMSChangePassword(action: SendSMSPasswordAction) {
+    const phoneNumber: any = action.phone?.replace(/\D/g, '');
+    // const deviceId = getUniqueId();
+
+    // const payload: any = {
+    //     phoneNumber,
+    //     deviceId
+    // };
+
+    const resp = yield callWrapperService(() =>
+        action.isPasswordTransaction
+            ? requestSendSMSChangePasswordTransaction()
+            : requestSendSMSChangePassword()
+    );
+
+    if (resp) {
+        // if (resp.data.isValid) {
+        //     yield put(didSendSMSFailAction());
+        // }
+
+        yield all([
+            put(showSMSModalAction()),
+            put(
+                didSendSMSPasswordSucceedAction(
+                    resp.data.waitingTimeMs,
+                    phoneNumber
+                )
+            )
+        ]);
+    } else {
+        yield put(didSendSMSPasswordFailAction());
+    }
+}
+
 function* validateSMS(action: ValidateSMSCodeAction) {
     const phone: string = yield select(
         (state: IApplicationState) => state.signUp.payload.phone
@@ -250,7 +301,7 @@ function* validateSMS(action: ValidateSMSCodeAction) {
     if (action.perfil) {
         payload = {
             ...payload,
-            phoneNumber: action.phone!.replace(/\D/g, '')
+            phoneNumber: action.phone?.replace(/\D/g, '')
         };
     }
 
@@ -291,5 +342,6 @@ function* validateSMS(action: ValidateSMSCodeAction) {
 
 export default all([
     takeLatest(SEND_PHONE_SMS, sendSMS),
+    takeLatest(SEND_PHONE_SMS_PASSWORD, sendSMSChangePassword),
     takeLatest(VALIDATE_SMS_CODE, validateSMS)
 ]);

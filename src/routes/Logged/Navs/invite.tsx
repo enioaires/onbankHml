@@ -20,7 +20,7 @@ interface IInviteProps {
 }
 
 const Stack = createStackNavigator<Routes>();
-
+ 
 const InviteNav: React.FC<IInviteProps> = ({ navRef }: IInviteProps) => {
     return (
         <Stack.Navigator

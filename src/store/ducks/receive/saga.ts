@@ -25,11 +25,11 @@ import { transformToCurrencyPayload } from '../../../utils/helpers';
 import callWrapperService from '../../../utils/callWrapperService';
 
 const requestReceive = (payload: any) => {
-    return api.post('/pix/bankly/generate/dynamic', payload);
+    return api.post('pix/bankly/generate/dynamic', payload);
 };
 
 const requestPixQrCode = (payload: any) => {
-    return api.get(`/pix/history/${payload.accountId || ''}`, payload);
+    return api.get(`/pix/history`, payload);
 };
 
 // function* receive(action: RequestReceiveAction) {
@@ -102,21 +102,7 @@ const requestPixQrCode = (payload: any) => {
 // }
 
 function* requestPixQrCodeData() {
-    const accountId: string | null = yield select(
-        (state: IApplicationState) => state.auth.accountId
-    );
-    const clientIsBeta: boolean | null = yield select(
-        (state: IApplicationState) => state.user.data.client.isBeta
-    );
-
-    const payload = {
-        accountid: accountId
-    };
-
-    const resp = yield callWrapperService(
-        requestPixQrCode,
-        clientIsBeta ? {} : payload
-    );
+    const resp = yield callWrapperService(requestPixQrCode);
     // console.log(JSON.stringify(resp, null, 2))
 
     if (resp?.data) {
@@ -127,10 +113,6 @@ function* requestPixQrCodeData() {
 }
 
 function* receive(action: RequestReceiveAction) {
-    const accountId: string | null = yield select(
-        (state: IApplicationState) => state.auth.accountId
-    );
-
     const receivePayload: IReceivePayload = yield select(
         (state: IApplicationState) => state.receive.payload
     );
@@ -139,8 +121,7 @@ function* receive(action: RequestReceiveAction) {
     );
 
     const payload = {
-        amount: transformToCurrencyPayload(receivePayload.amount),
-        accountId
+        amount: transformToCurrencyPayload(receivePayload.amount)
     };
 
     const resp = yield callWrapperService(requestReceive, payload);

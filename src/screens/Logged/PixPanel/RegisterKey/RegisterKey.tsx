@@ -64,10 +64,12 @@ const RegisterKeyScreen = ({ navigation, route }: any) => {
                             { name: 'MyKeys' },
                             {
                                 name: 'RequestPortability',
-                                params: { pixKey:
+                                params: {
+                                    pixKey:
                                         selectedKey?.type == 'PHONE'
                                             ? '+55' + selectedKey?.key
-                                            : selectedKey?.key}
+                                            : selectedKey?.key
+                                }
                             }
                         ]
                     });

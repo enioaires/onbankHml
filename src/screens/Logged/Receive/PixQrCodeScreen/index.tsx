@@ -77,7 +77,6 @@ const PixQrCodeScreen: React.FC<ReceiveStackNavigationProps<'QRCode'>> = () => {
             });
     };
 
-    
     const copyPixCopiaecola = useCallback(() => {
         Clipboard.setString(copiaECola);
         showMessage({

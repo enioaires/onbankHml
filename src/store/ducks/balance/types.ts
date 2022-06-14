@@ -4,7 +4,6 @@ export const BALANCE_SUCCESS = 'BALANCE_SUCCESS';
 export const CLEAR_BALANCE = 'CLEAR_BALANCE';
 
 export interface IBalanceData {
-    accountId: string;
     date: string;
     real: number;
     available: number;

@@ -29,6 +29,7 @@ import { PixPaymentsStackNavigationProps } from 'src/routes/Logged/types';
 const eyeClose = require('../../../../../assets/icons/new_icons/hide-white.png');
 const eyeOpen = require('../../../../../assets/icons/new_icons/show-white.png');
 
+
 const PixOption: React.FC<PixPaymentsStackNavigationProps<'Option'>> = ({ 
     navigation 
 }: PixPaymentsStackNavigationProps<'Option'>) => {

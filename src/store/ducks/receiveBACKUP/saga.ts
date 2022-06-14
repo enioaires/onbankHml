@@ -92,10 +92,6 @@ const requestReceive = (payload: any) => {
 // }
 
 function* receive(action: RequestReceiveAction) {
-    const accountId: string | null = yield select(
-        (state: IApplicationState) => state.auth.accountId
-    );
-
     const receivePayload: IReceivePayload = yield select(
         (state: IApplicationState) => state.receiveBACKUP.payload
     );
@@ -106,7 +102,6 @@ function* receive(action: RequestReceiveAction) {
     const payload = {
         amount: transformToCurrencyPayload(receivePayload.amount),
         description: receivePayload.description,
-        accountId,
         deviceId
     };
 

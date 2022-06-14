@@ -22,6 +22,7 @@ import {
     closeSMSModalAction,
     didSendSMSFailAction,
     sendSMSAction,
+    sendSMSPasswordAction,
     validateSMSCodeAction
 } from '../../store/ducks/phoneValidation/actions';
 
@@ -34,10 +35,14 @@ import { PerfilStackNavigationProps } from '../../routes/Logged/types';
 interface IProps {
     isLoading: boolean;
     isVisible: boolean;
-    navigation: PerfilStackNavigationProps<'ChangePhone'>['navigation'];
+    navigation: any;
     phone: string;
     isPerfil?: boolean;
+    isPasswordAccess?: boolean;
+    isPasswordTransaction?: boolean;
+    passwordAction?: any;
     routeContext?: string;
+    errorMessage?: string;
 }
 
 export default function SMSCodeModal({
@@ -46,7 +51,11 @@ export default function SMSCodeModal({
     navigation,
     phone,
     isPerfil,
-    routeContext
+    isPasswordAccess,
+    isPasswordTransaction = false,
+    routeContext,
+    passwordAction = () => {},
+    errorMessage = ''
 }: IProps) {
     const dispatch = useDispatch();
     const timeToWait = useSelector(
@@ -89,7 +98,16 @@ export default function SMSCodeModal({
 
     const resend = useCallback(() => {
         setCode('');
-        if (isPerfil) {
+        if (isPasswordAccess || isPasswordTransaction) {
+            dispatch(
+                sendSMSPasswordAction(
+                    true,
+                    navigation,
+                    phone,
+                    isPasswordTransaction
+                )
+            );
+        } else if (isPerfil) {
             dispatch(sendSMSAction(true, navigation, true, phone));
         } else {
             dispatch(
@@ -102,10 +120,20 @@ export default function SMSCodeModal({
                 )
             );
         }
-    }, [dispatch, isPerfil, navigation, phone, routeContext]);
+    }, [
+        dispatch,
+        isPerfil,
+        isPasswordAccess,
+        isPasswordTransaction,
+        navigation,
+        phone,
+        routeContext
+    ]);
 
     const validateSMSCode = useCallback(() => {
-        if (isPerfil) {
+        if (isPasswordAccess || isPasswordTransaction) {
+            passwordAction(code, navigation);
+        } else if (isPerfil) {
             dispatch(validateSMSCodeAction(code, navigation, true, phone));
         } else {
             dispatch(
@@ -118,7 +146,16 @@ export default function SMSCodeModal({
                 )
             );
         }
-    }, [code, navigation, phone, dispatch, isPerfil, routeContext]);
+    }, [
+        code,
+        navigation,
+        phone,
+        isPasswordAccess,
+        isPasswordTransaction,
+        dispatch,
+        isPerfil,
+        routeContext
+    ]);
 
     useEffect(() => {
         if (code.length > 3) {
@@ -172,6 +209,13 @@ export default function SMSCodeModal({
                         setValue={(value) => setCode(value)}
                     />
                 </View>
+                {errorMessage?.length ? (
+                    <Text allowFontScaling={false} style={styles.errorMessage}>
+                        {errorMessage}
+                    </Text>
+                ) : (
+                    <></>
+                )}
                 {isLoading ? (
                     <ActivityIndicator size="large" color={colors.blue.sixth} />
                 ) : (
@@ -244,6 +288,13 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: colors.text.smsModel,
         lineHeight: 20
+    },
+    errorMessage: {
+        fontSize: 14,
+        fontFamily: 'Roboto-Regular',
+        marginBottom: 20,
+        textAlign: 'center',
+        color: colors.red
     },
     resend: {
         fontSize: 20,

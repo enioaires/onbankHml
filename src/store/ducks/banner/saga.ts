@@ -13,8 +13,8 @@ import { didGetBannerFailAction, didGetBannerSucceedAction } from './actions';
 // Utils
 import callWrapperService from '../../../utils/callWrapperService';
 
-const requestGetBanner = (accountId: string) => {
-    return api.get(`/banner/${accountId}`);
+const requestGetBanner = () => {
+    return api.get(`/banner`);
 };
 
 // function* getBanner() {
@@ -60,11 +60,7 @@ const requestGetBanner = (accountId: string) => {
 // }
 
 function* getBanner() {
-    const accountId: string | null = yield select(
-        (state: IApplicationState) => state.auth.accountId
-    );
-
-    const resp: any = yield callWrapperService(requestGetBanner, accountId);
+    const resp: any = yield callWrapperService(requestGetBanner);
 
     // console.log('banner', JSON.stringify(resp, null, 2));
 

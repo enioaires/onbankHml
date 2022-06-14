@@ -116,7 +116,11 @@ const TextInput: React.FC<IProps> = ({
                 }}
             >
                 <Image
-                    source={password === 'notVisible' ? eyeOpen : eyeClose}
+                    source={
+                        password === 'notVisible'
+                            ? eyeOpen
+                            : eyeClose
+                    }
                     style={{width: 24, height: 24}}
                 />
             </TouchableOpacity>

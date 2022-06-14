@@ -35,9 +35,7 @@ const EmailScreen: React.FC<InviteStackNavigationProps<'Email'>> = ({
 }: InviteStackNavigationProps<'Email'>) => {
     const { isKeyboardActive } = useIsKeyboardActive();
     const dispatch = useDispatch();
-    const accountId = useSelector(
-        (state: IApplicationState) => state.auth.accountId
-    );
+
     const [email, setEmail] = useState('');
     const [validation, setValidation] = useState('');
     const [loading, setLoading] = useState(false);
@@ -55,7 +53,6 @@ const EmailScreen: React.FC<InviteStackNavigationProps<'Email'>> = ({
             // Saga Fora
             try {
                 const resp = await api.post('/invite/email', {
-                    accountId,
                     email
                 });
 

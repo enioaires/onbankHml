@@ -49,9 +49,14 @@ const PaymentCopyPaste = ({ navigation, route }) => {
                     alias:
                         data.dynamicQrcodeData?.payload?.chave ||
                         data.staticQrcodeData?.alias,
-                    name: data.dynamicQrcodeData?.merchantName,
+                    name:
+                        data.dynamicQrcodeData?.merchantName ||
+                        data.staticQrcodeData?.merchantName,
                     isReview: true,
-                    amount: data.dynamicQrcodeData?.amount
+                    amount: data.dynamicQrcodeData?.amount,
+                    description:
+                        data.dynamicQrcodeData?.payload?.infoAdicionais[0]
+                            ?.nome || data.staticQrcodeData?.description
                 };
                 const receiverStaticDetails = {
                     qrcodeType,
@@ -59,7 +64,8 @@ const PaymentCopyPaste = ({ navigation, route }) => {
                     alias: data.staticQrcodeData?.alias,
                     name: data.staticQrcodeData?.merchantName,
                     isReview: false,
-                    amount: data.staticQrcodeData?.amount
+                    amount: data.staticQrcodeData?.amount,
+                    description: data.staticQrcodeData?.description
                 };
                 setOpen(false);
                 const description =

@@ -20,7 +20,6 @@ export interface ILoginResponse {
     user: {
         id: string;
         accountHolderId: string;
-        accountId: string;
         documentNumber: string;
         email: string;
     };

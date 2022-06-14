@@ -27,6 +27,7 @@ export const OperationsContainer = styled.View`
 
 export const Operation = styled.TouchableOpacity`
     border-radius: 8px;
+    background-color: #fff;
     height: 130px;
     width: ${width * 0.27}px; //109px;
     margin-right: 5px;
@@ -35,7 +36,6 @@ export const Operation = styled.TouchableOpacity`
     padding-bottom: 16px;
     padding-left: 15px;
     padding-right: 16px;
-    background-color: #fff;
     shadow-color: #B1C0DC3F;
     shadow-offset: { width: 0, height: 5 };
     shadow-opacity: 1;

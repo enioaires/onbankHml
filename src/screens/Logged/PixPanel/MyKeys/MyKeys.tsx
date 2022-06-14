@@ -79,7 +79,7 @@ const MyKeysScreen = () => {
     const handleSelectKey = (key: Alias) => () => {
         if (key.status === 'PENDING_PORTABILITY_CONFIRMATION') {
             return navigation.navigate('RequestPortability', {
-             pixKey: key.type == 'PHONE' ? `+55${key.name}` : key.name
+                pixKey: key.type == 'PHONE' ? `+55${key.name}` : key.name
             });
         }
         setSelectedKey(key);

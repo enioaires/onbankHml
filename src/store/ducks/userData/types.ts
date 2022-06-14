@@ -6,7 +6,6 @@ export const CLEAR_USER_DATA = 'CLEAR_USER_DATA';
 export interface IUserData {
     accountHolderId: string;
     account: {
-        accountId: string;
         account: number;
         branch: number;
         mobilePhone: {

@@ -26,6 +26,7 @@ interface IPaymentsProps {
 const Stack = createStackNavigator<Routes>();
 
 const PaymentsNav: React.FC<IPaymentsProps> = ({ navRef }: IPaymentsProps) => {
+    const { name } = navRef?.current.getCurrentRoute();
     return (
         <Stack.Navigator
             initialRouteName="Option"
@@ -37,15 +38,17 @@ const PaymentsNav: React.FC<IPaymentsProps> = ({ navRef }: IPaymentsProps) => {
                 headerTitle: 'Pagar',
                 headerLeft: () => (
                     <TouchableOpacity onPress={() => navRef?.current.goBack()}>
-                        <Image
-                            source={require('../../../../assets/icons/back.png')}
-                            resizeMode="contain"
-                            style={{
-                                width: 22,
-                                height: 18,
-                                marginLeft: Platform.OS === 'ios' ? 27 : 16
-                            }}
-                        />
+                        {name !== "Payment" && (
+                            <Image
+                                source={require('../../../../assets/icons/back.png')}
+                                resizeMode="contain"
+                                style={{
+                                    width: 22,
+                                    height: 18,
+                                    marginLeft: Platform.OS === 'ios' ? 27 : 16
+                                }}
+                            />
+                        )}
                     </TouchableOpacity>
                 ),
                 headerRight: () => (

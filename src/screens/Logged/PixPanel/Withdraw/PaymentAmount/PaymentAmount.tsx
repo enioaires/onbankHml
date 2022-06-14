@@ -25,6 +25,7 @@ import {
 import { Value } from '../../MyKeys/components/CardPixKey/CardPixKey.styles';
 import { IApplicationState } from '../../../../../store/types';
 import { useFetch } from '../../../../../utils/useFetch';
+// import PasswordModal from '../Components/PasswordModal/PasswordModal';
 import { onGetUserData } from '../../../../../store/ducks/userData/actions';
 
 const textIcon = require('../../../../../../assets/icons/text.png');
@@ -41,6 +42,7 @@ const aliasTypes = {
 const PaymentAmount = (props: any) => {
     const { route, navigation } = props;
     const { params } = route;
+    // const [togglePasswordModal, setTogglePasswordModal] = useState(false);
     const [amount, setAmount] = useState(params?.amount || '');
     const [disabledButton, setDisabledButton] = useState(false);
 
@@ -63,6 +65,9 @@ const PaymentAmount = (props: any) => {
         console.log('validade amount', parseCurrency(amount));
     }, [amount]);
 
+    // const handleTogglePasswordModal = () => {
+    //     setTogglePasswordModal(!togglePasswordModal);
+    // };
     const { doFetch: makePixTransfer, isFetching: loadingTransfer } = useFetch(
         'pix/withdraw',
         'post',
@@ -315,6 +320,15 @@ const PaymentAmount = (props: any) => {
                     onPress={handleNextStep}
                 />
             </KeyboardAvoidingView>
+
+            {/* {togglePasswordModal && (
+                <PasswordModal
+                    isLoading={loadingTransfer}
+                    onSuccess={handleMakePixTransfer}
+                    isOpen={togglePasswordModal}
+                    onClose={handleTogglePasswordModal}
+                />
+            )} */}
         </PageContainer>
     );
 };

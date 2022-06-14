@@ -31,8 +31,6 @@ import colors from '../../../../styles/colors';
 import { InviteStackNavigationProps } from '../../../../routes/Logged/types';
 import { onGetUserData } from '../../../../store/ducks/userData/actions';
 
-// const { width, height } = Dimensions.get('window');
-
 const inviteImg = require('../../../../../assets/invite-img.png');
 const forward = require('../../../../../assets/icons/arrow-carrot-right.png');
 
@@ -310,6 +308,9 @@ const styles = StyleSheet.create({
     scrollContainer: {
         alignItems: 'center'
     },
+    imgContainer: {
+        marginBottom: 20
+    },
     img: {
         width: '70%',
         height: undefined,
@@ -341,7 +342,6 @@ const styles = StyleSheet.create({
     },
     invitesListButton: {
         marginBottom: 14,
-        backgroundColor: colors.white,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',

@@ -32,7 +32,6 @@ export type SaveUserAuthAction = {
     payload: {
         token: string;
         accountHolderId: string;
-        accountId: string;
         revalidated: boolean;
     };
 };
@@ -117,7 +116,6 @@ export const revalidateUserAction = (): RevalidateUserAction => ({
 export const saveUserAuthAction = (payload: {
     token: string;
     accountHolderId: string;
-    accountId: string;
     revalidated: boolean;
 }): SaveUserAuthAction => ({
     type: 'SAVE_USER_AUTH',

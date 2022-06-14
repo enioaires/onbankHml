@@ -17,12 +17,14 @@ const reducer: Reducer<IPhoneValidationState, PhoneValidationActions> = (
     action
 ) => {
     switch (action.type) {
+        case 'SEND_PHONE_SMS_PASSWORD':
         case 'SEND_PHONE_SMS':
         case 'VALIDATE_SMS_CODE':
             return {
                 ...state,
                 isLoading: true
             };
+        case 'SEND_PHONE_SMS_PASSWORD_SUCCESS':
         case 'SEND_PHONE_SMS_SUCCESS':
             return {
                 ...state,
@@ -37,6 +39,12 @@ const reducer: Reducer<IPhoneValidationState, PhoneValidationActions> = (
                 isLoading: false,
                 error: false
             };
+        case 'UPDATE_MS_TIME_WAIT':
+            return {
+                ...state,
+                timeToWait: action.timeToWait
+            }
+        case 'SEND_PHONE_SMS_PASSWORD_FAILURE':
         case 'SEND_PHONE_SMS_FAILURE':
         case 'VALIDATE_SMS_CODE_FAILURE':
             return {

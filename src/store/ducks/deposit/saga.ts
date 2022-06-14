@@ -107,9 +107,6 @@ function* deposit(action: RequestDepositAction) {
     const amount: string = yield select(
         (state: IApplicationState) => state.deposit.payload.amount
     );
-    const accountId: string | null = yield select(
-        (state: IApplicationState) => state.auth.accountId
-    );
 
     const isOverTheLimit: boolean = yield select(
         (state: IApplicationState) =>
@@ -117,9 +114,9 @@ function* deposit(action: RequestDepositAction) {
     );
 
     const payload = {
+        transactionPassword: action.password,
         payloadParsed: {
-            amount: transformToCurrencyPayload(amount),
-            accountId
+            amount: transformToCurrencyPayload(amount)
         },
         isOverTheLimit
     };

@@ -25,7 +25,7 @@ const BankInstitutionInput = ({ onSelect }) => {
     const [showDataList, setShowDataList] = useState(false);
     const [selectedBank, setSelectedBank] = useState();
     const { doFetch: getBanks, data: bankList } = useFetch(
-        'transfer/banks',
+        'pix/banks/psps',
         'get',
         {
             defaultValue: { banks: [] }
@@ -56,7 +56,6 @@ const BankInstitutionInput = ({ onSelect }) => {
                     {!!inputValue && (
                         <BankSelectedValue>{inputValue}</BankSelectedValue>
                     )}
-
                     <Image
                         source={editIcon}
                         style={{ width: 20, height: 20 }}

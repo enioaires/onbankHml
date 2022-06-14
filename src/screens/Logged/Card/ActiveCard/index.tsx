@@ -242,7 +242,7 @@ const ActiveCard: React.FC<CardStackNavigationProps<'Active'>> = ({
                                 onPress={() => setHideBalance(oldstate => !oldstate)}
                             >
                                 <Image
-                                    source={hideBalance ? eyeClose : eyeOpen}
+                                    source={ hideBalance ? eyeClose : eyeOpen}
                                     style={{ width: 22, height: 22 }}
                                 />
                             </TouchableOpacity>

@@ -26,7 +26,7 @@ export const paymentOptions: PaymentOption[] = [
     {
         name: 'Pagar com Dados Bancários',
         icon: require('../../../../../assets/icons/new_icons/bank.png'),
-         screen: 'PaymentBankData',
+        screen: 'PaymentBankData',
         size: { width: 24, height: 24 }
     }
 ];

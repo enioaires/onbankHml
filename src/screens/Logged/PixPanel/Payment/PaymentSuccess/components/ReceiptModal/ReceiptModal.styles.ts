@@ -59,6 +59,7 @@ export const Card = styled.View`
     border-radius: 10px;
     margin-bottom: 16px;
 `;
+
 export const CardTitle = styled.Text`
     color: ${colors.blue.primary};
     font-family: 'Roboto-Bold';

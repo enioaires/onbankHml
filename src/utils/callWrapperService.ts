@@ -16,9 +16,28 @@ function* callWrapperService(fn: any, ...args: any[]): Generator {
     const isDemoAccount: boolean | unknown = yield select(
         (state: IApplicationState) => state.user.data.client.isDemo
     );
+    let newArgs: any = args;
+    let customParameters: {
+        beforeErrorAction?: {
+            isYieldFunction?: boolean;
+            actions?: any[];
+        };
+        beforeErrorDelay?: number | undefined | null;
+        returnErrorMessage?: boolean | undefined | null;
+        returnDelayErrorMessage?: boolean | undefined | null;
+    } = {};
+    if (args && args.some((item) => item && item.isCustomParameterModal)) {
+        newArgs = args.filter((item) => item && !item.isCustomParameterModal);
+
+        [customParameters] = args.filter(
+            (item) => item && item.isCustomParameterModal
+        );
+    }
+    let customResponseParams = {};
 
     try {
-        const resp: any = yield call(fn, ...args);
+        const resp: any = yield call(fn, ...newArgs);
+        customResponseParams = resp;
 
         console.log(`wrapper ${fn}`, JSON.stringify(resp, null, 2));
 
@@ -59,7 +78,7 @@ function* callWrapperService(fn: any, ...args: any[]): Generator {
         }
 
         return resp;
-    } catch (error) {
+    } catch (error: any) {
         console.log('ERROR', error);
         const isDemoAccountLimitation = error.message.match(
             /Esse tipo de conta não permite essa operação/g
@@ -77,6 +96,34 @@ function* callWrapperService(fn: any, ...args: any[]): Generator {
             ? demoLimitationMessage
             : error.message ||
               'Ocorreu um prolema.\nTente novamente mais tarde.';
+
+        if (
+            customParameters.beforeErrorAction &&
+            customParameters.beforeErrorAction.isYieldFunction &&
+            customParameters.beforeErrorAction.actions
+        ) {
+            // eslint-disable-next-line no-restricted-syntax
+            for (const act of customParameters.beforeErrorAction.actions) {
+                yield put(act());
+            }
+        }
+
+        // eslint-disable-next-line no-extra-boolean-cast
+        if (!!customParameters.beforeErrorDelay) {
+            yield delay(customParameters.beforeErrorDelay);
+        }
+
+        const customErrorParams = customResponseParams
+            ? { ...customResponseParams }
+            : {};
+
+        if (customParameters.returnErrorMessage) {
+            return {
+                error: true,
+                message,
+                customErrorParams
+            };
+        }
 
         yield put(
             setAlertMessageAction({
@@ -97,6 +144,14 @@ function* callWrapperService(fn: any, ...args: any[]): Generator {
                         : undefined
             })
         );
+
+        if (customParameters.returnDelayErrorMessage) {
+            return {
+                error: true,
+                message,
+                customErrorParams
+            };
+        }
 
         return undefined;
     }

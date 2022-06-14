@@ -70,16 +70,11 @@ const requestAddTransactionPassword = (payload: any) => {
 // }
 
 function* addTransactionPassword(action: AddTransactionPasswordAction) {
-    const accountId: string | null = yield select(
-        (state: IApplicationState) => state.auth.accountId
-    );
-
     const transactionPassword: string = yield select(
         (state: IApplicationState) => state.addTransactionPassword.password
     );
 
     const resp: any = yield callWrapperService(requestAddTransactionPassword, {
-        accountId,
         transactionPassword
     });
 

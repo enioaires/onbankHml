@@ -37,13 +37,13 @@ const requestCodepushEnvironment = (hwid: string) => {
 
 function* saveToken(action: SaveUserAuthAction) {
     api.setHeader('Authorization', `Bearer ${action.payload.token}`);
-    api.setHeader('AccountId', action.payload.accountId);
+    // api.setHeader('AccountId', action.payload.accountId);
 
     yield call(() =>
         AsyncStorage.multiSet([
             ['authToken', action.payload.token],
-            ['accountHolderId', action.payload.accountHolderId],
-            ['accountId', action.payload.accountId]
+            ['accountHolderId', action.payload.accountHolderId]
+            // ['accountId', action.payload.accountId]
         ])
     );
 }
@@ -64,7 +64,7 @@ function* removeToken() {
         AsyncStorage.multiRemove([
             'authToken',
             'accountHolderId',
-            'accountId',
+            // 'accountId',
             'userName',
             'userAccount',
             'userBranch',
@@ -79,7 +79,7 @@ function* removeToken() {
     ]);
     yield put(removeTokenStoreAction());
     api.deleteHeader('Authorization');
-    api.deleteHeader('AccountId');
+    // api.deleteHeader('AccountId');
 }
 function appReady({ deploymentKey, installMode, updateDialog }: any): any {
     return codePush.notifyAppReady().then(

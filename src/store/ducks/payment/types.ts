@@ -29,7 +29,6 @@ export interface IPaymentCreditCardPayload {
         taxId: string;
         country: 'BRA';
     };
-    accountId?: string;
     currency?: 'BRL';
     installments?: number;
     amount?: number;
@@ -71,7 +70,6 @@ export interface IPaymentPayload {
 }
 
 export interface IQRCodePayload {
-    accountId: string;
     account: string;
     branch: string;
     description: string;

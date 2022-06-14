@@ -44,7 +44,6 @@ const AddNewCardAddressModal: React.FC<IProps> = ({
     feature
 }: IProps) => {
     const [
-        accountId,
         city,
         complement,
         country,
@@ -55,7 +54,6 @@ const AddNewCardAddressModal: React.FC<IProps> = ({
         street
     ] = useSelector((appState: IApplicationState) => {
         return [
-            appState.auth.accountId,
             appState.user.data.billingAddress.cidade,
             appState.user.data.billingAddress.complemento,
             appState.user.data.billingAddress.pais,
@@ -74,7 +72,7 @@ const AddNewCardAddressModal: React.FC<IProps> = ({
     const getAddress = async () => {
         // Saga Fora
         try {
-            const resp = await api.get(`/card/address/${accountId}`);
+            const resp = await api.get(`/card/address`);
 
             if (resp.error || resp.statusCode === 500) {
                 if (resp.statusCode === 500) {

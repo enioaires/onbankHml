@@ -223,7 +223,6 @@ const Receive = (props: any) => {
                                 >
                                     R$ {params?.amount}
                                 </Text>
-
                                 <Image
                                     source={editIcon}
                                     style={{ width: 26, height: 26 }}

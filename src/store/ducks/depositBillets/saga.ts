@@ -20,8 +20,8 @@ import { setAlertMessageAction } from '../../../store/ducks/alert/actions';
 // Utils
 import callWrapperService from '../../../utils/callWrapperService';
 
-const requestGetDepositBillets = (accountId: string) => {
-    return api.get(`/deposit/billet/${accountId}`);
+const requestGetDepositBillets = () => {
+    return api.get(`/deposit/billet`);
 };
 
 const requestGetConditionBillets = () => {
@@ -72,14 +72,7 @@ const requestGetConditionBillets = () => {
 // }
 
 function* getDepositBillets() {
-    const accountId: string | null = yield select(
-        (state: IApplicationState) => state.auth.accountId
-    );
-
-    const resp: any = yield callWrapperService(
-        requestGetDepositBillets,
-        accountId
-    );
+    const resp: any = yield callWrapperService(requestGetDepositBillets);
 
     // console.log('depositBillets', JSON.stringify(resp, null, 2));
 

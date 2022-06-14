@@ -15,7 +15,6 @@ export const Container = styled.TouchableOpacity`
     shadow-radius: 7;
     elevation: 1;
 `;
-
 export const ContentContainer = styled.View`
     flex-direction: row;
     align-items: center;

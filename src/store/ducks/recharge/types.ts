@@ -42,7 +42,6 @@ export interface ILatestRechargeData {
 }
 
 export interface IRechargePayload {
-    accountId: string;
     mobilePhone: {
         phoneNumber: string;
         country: string;

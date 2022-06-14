@@ -6,7 +6,6 @@ import { RechargeActions } from './actions';
 
 const INITIAL_STATE: IRechargeState = {
     payload: {
-        accountId: '',
         mobilePhone: {
             phoneNumber: '',
             country: 'BRA'

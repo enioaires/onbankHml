@@ -131,13 +131,10 @@ const EmailScreen: React.FC<SignUpStackNavigationProps<'Email'>> = ({
 
     const initiateKYCFlow = () => {
         IdwallSdk.initialize('3cb30ce77c16f00436ed732539942778');
-
-        if (IdwallSdk.ios) {
-            IdwallSdk.ios.setupPublicKeys([
-                'AHYMQP+2/KIo32qYcfqnmSn+N/K3IdSZWlqa2Zan9eY=',
-                'tDilFQ4366PMdAmN/kyNiBQy24YHjuDs6Qsa6Oc/4c8='
-            ]);
-        }
+        IdwallSdk.setupPublicKeys([
+            'AHYMQP+2/KIo32qYcfqnmSn+N/K3IdSZWlqa2Zan9eY=',
+            'tDilFQ4366PMdAmN/kyNiBQy24YHjuDs6Qsa6Oc/4c8='
+        ]);
 
         IdwallSdk.startCompleteFlow('CHOOSE')
             .then((token: any) => {
@@ -211,7 +208,6 @@ const EmailScreen: React.FC<SignUpStackNavigationProps<'Email'>> = ({
             return navigation.navigate('SignUp', {
                 screen: 'CapacityFinancial'
             });
-
             // initiateKYCFlow();
             // Desabilitado, todas as contas serao criadas como DEMO
             // dispatch(

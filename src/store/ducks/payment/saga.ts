@@ -398,10 +398,6 @@ const requestPaymentWithCreditCard = (
 // }
 
 function* getCreditCardInstallments(action: GetCreditCardInstallmentsAction) {
-    const accountId: string | null = yield select(
-        (state: IApplicationState) => state.auth.accountId
-    );
-
     const amount: number | undefined = yield select(
         (state: IApplicationState) =>
             state.payment.payload.paymentDetails?.totalAmount
@@ -413,7 +409,6 @@ function* getCreditCardInstallments(action: GetCreditCardInstallmentsAction) {
     );
 
     const resp = yield callWrapperService(requestCreditCardInstallments, {
-        accountId,
         amount: amount || consolidatedAmount
     });
 
@@ -437,10 +432,6 @@ function* payBill(action: RequestPaymentAction) {
     const account: number = yield select(
         (state: IApplicationState) => state.user.data.account.account
     );
-    const accountId: string | null = yield select(
-        (state: IApplicationState) => state.auth.accountId
-    );
-
     const branch: number = yield select(
         (state: IApplicationState) => state.user.data.account.branch
     );
@@ -466,7 +457,6 @@ function* payBill(action: RequestPaymentAction) {
 
     if (paymentPayload.paymentDetails!.documentType === 'Boleto') {
         payload = {
-            accountId,
             totalAmount,
             payBillet: {
                 withdrawType: paymentPayload.paymentDetails!.documentType,
@@ -483,7 +473,6 @@ function* payBill(action: RequestPaymentAction) {
         };
     } else {
         payload = {
-            accountId,
             totalAmount,
             payBillet: {
                 withdrawType: paymentPayload.paymentDetails!.documentType,
@@ -516,7 +505,6 @@ function* payBill(action: RequestPaymentAction) {
                     taxId: creditCard?.holderData?.taxId,
                     country: 'BRA'
                 },
-                accountId,
                 currency: 'BRL',
                 installments: creditCard.installments,
                 amount: creditCard.amount
@@ -585,10 +573,6 @@ function* payBill(action: RequestPaymentAction) {
 }
 
 function* qrCodePayment(action: RequestQRCodePaymentAction) {
-    const senderAccountId: string | null = yield select(
-        (state: IApplicationState) => state.auth.accountId
-    );
-
     const senderAccount: number = yield select(
         (state: IApplicationState) => state.user.data.account.account
     );
@@ -604,7 +588,6 @@ function* qrCodePayment(action: RequestQRCodePaymentAction) {
         senderAccount,
         senderBranch,
         description: qrCodePayload.description,
-        receiverAccountId: qrCodePayload.accountId,
         receiverTaxId: qrCodePayload.taxId.replace(/\D/g, ''),
         receiverName: qrCodePayload.name,
         amount: transformToCurrencyPayload(qrCodePayload.amount),

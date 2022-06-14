@@ -23,10 +23,15 @@ const ImportantInfoModal = (props: ImportantInfoModalProps) => {
             <ModalBody>
                 <Title>Importante!</Title>
                 <Description>
-                     <Paragraph>                        
-                        Ao receber uma transação, a pessoa que fez a operação
-                        terá acesso aos seguintes dados: Nome completo, CPF (os três primeiros e os
-                        últimos dígitos). Quando a transação PIX for iniciada por QR Code,
+                    <Paragraph>
+                        Ao cadastrar sua chave, você está ciente e concorda que
+                        ao receber uma transação, a pessoa que fez a operação
+                        terá acesso aos seguintes dados relacionados a sua
+                        chave: Nome completo, CPF (os três primeiros e os
+                        últimos dígitos).
+                    </Paragraph>
+                    <Paragraph>
+                        - Quando a transação PIX for iniciada por QR Code,
                         aparecerá o nome do prestador de serviços de pagamento
                         ao qual a chave está vinculada,
                     </Paragraph>

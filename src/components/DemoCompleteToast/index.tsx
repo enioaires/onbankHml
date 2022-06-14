@@ -43,6 +43,7 @@ const DemoCompleteToast: React.FC<IDemoCompleteToastProps> = (props) => {
     const sendIOSUserNewAccount = async () => {
         try {
             const resp = await api.get('/validate/account');
+            console.log(resp)
         } catch (e) {
             console.log(e);
         }

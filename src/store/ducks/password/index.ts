@@ -8,7 +8,8 @@ const INITIAL_STATE: IPasswordState = {
     confirmationPassword: '',
     isLoading: false,
     validateLoading: false,
-    error: false
+    error: false,
+    errorMessage: ''
 };
 
 const reducer: Reducer<IPasswordState, PasswordActions> = (
@@ -26,23 +27,27 @@ const reducer: Reducer<IPasswordState, PasswordActions> = (
                 ...state,
                 ...INITIAL_STATE
             };
+        case 'UPDATE_PASSWORD_START':
         case 'UPDATE_ACCESS_PASSWORD':
         case 'UPDATE_TRANSACTION_PASSWORD':
             return {
                 ...state,
-                isLoading: true
+                isLoading: true,
+                errorMessage: ''
             };
         case 'UPDATE_SUCCESS':
             return {
                 ...state,
                 isLoading: false,
-                error: false
+                error: false,
+                errorMessage: ''
             };
         case 'UPDATE_FAILURE':
             return {
                 ...state,
                 isLoading: false,
-                error: true
+                error: true,
+                errorMessage: action.errorMessage
             };
         case 'VALIDATE_TRANSACTION_PASSWORD':
         case 'VALIDATE_ACCESS_PASSWORD':

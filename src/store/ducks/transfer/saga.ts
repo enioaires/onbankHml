@@ -48,8 +48,8 @@ const requestTEDTransfer = (payload: any) => {
     return api.post('v2/transfer/ext', payload);
 };
 
-const requestLatestTransfer = (accountId: string) => {
-    return api.get(`/transfer/statements/${accountId}`);
+const requestLatestTransfer = () => {
+    return api.get(`/transfer/statements`);
 };
 
 const requestContactsTransfer = (listContact: string[]) => {
@@ -64,10 +64,8 @@ const requestCancelSchedule = (transactionId: string) => {
     return api.del(`/schedule/${transactionId}`);
 };
 
-const requestGetTransferContacts = (accountId: string, taxId: string) => {
-    return api.get(
-        `/transfer/contacts/${accountId}/${taxId.replace(/\D/g, '')}`
-    );
+const requestGetTransferContacts = (taxId: string) => {
+    return api.get(`/transfer/contacts/${taxId.replace(/\D/g, '')}`);
 };
 
 function* cancelSchedule(action: CancelTransferScheduleAction) {
@@ -86,11 +84,7 @@ function* cancelSchedule(action: CancelTransferScheduleAction) {
 }
 
 function* latestTransfer() {
-    const accountId: string | null = yield select(
-        (state: IApplicationState) => state.auth.accountId
-    );
-
-    const resp = yield callWrapperService(requestLatestTransfer, accountId);
+    const resp = yield callWrapperService(requestLatestTransfer);
 
     // console.log('latest transfer', JSON.stringify(resp.data, null, 2));
 
@@ -136,9 +130,10 @@ function* frequentlyTransfer() {
 }
 
 function* transfer(action: RequestTransferAction) {
-    const accountId: string | null = yield select(
-        (state: IApplicationState) => state.auth.accountId
-    );
+    console.log('ACTIOOONNNN =====>', action);
+    const accountId = (number = yield select(
+        (state: IApplicationState) => state.user.data.accountId
+    ));
     const senderAccount: number = yield select(
         (state: IApplicationState) => state.user.data.account.account
     );
@@ -151,7 +146,6 @@ function* transfer(action: RequestTransferAction) {
 
     let payload: any = {
         amount: transformToCurrencyPayload(transferPayload.amount),
-        senderAccountId: accountId,
         receiverTaxId: transferPayload.receiverTaxId.replace(/\D/g, ''),
         receiverName: transferPayload.receiverName,
         receiverBranch: transferPayload.receiverBranch,
@@ -234,13 +228,8 @@ function* transfer(action: RequestTransferAction) {
 }
 
 function* getTransferContactsDetail(action: GetTransferContactsDetailAction) {
-    const accountId: string | null = yield select(
-        (state: IApplicationState) => state.auth.accountId
-    );
-
     const resp: any = yield callWrapperService(
         requestGetTransferContacts,
-        accountId,
         action.taxId
     );
 

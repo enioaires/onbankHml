@@ -55,7 +55,6 @@ const ConfirmationScreen: React.FC<
         (state: IApplicationState) => state.user.data.businessDay
     );
 
-    
     const isPJ = taxId.replace(/\D/g, '').length > 11;
 
     const handleRequestTransferAaction = (

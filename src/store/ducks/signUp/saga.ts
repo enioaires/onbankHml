@@ -805,7 +805,7 @@ function* signUp(action: RequestSignUpAction) {
         yield put(
             setAlertMessageAction({
                 title: 'Cadastro',
-                message: 'Conta expressa cadastrada com sucesso!',
+                message: 'Conta experimental cadastrada com sucesso!',
                 type: 'info',
                 action: {
                     onPress: () => {

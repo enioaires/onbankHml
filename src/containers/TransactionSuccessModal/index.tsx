@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, StyleSheet, View, TouchableOpacity, Image } from 'react-native';
 import Modal from 'react-native-modal';
 import LinearGradient from 'react-native-linear-gradient';
@@ -14,21 +14,26 @@ import { closeSuccessModalAction } from '../../store/ducks/successModal/actions'
 interface IProps {
     navigation: any;
     noReceiptMode?: boolean;
+    noRedirect?: boolean;
 }
 
 export default function TransactionSuccessModal({
     navigation,
-    noReceiptMode
+    noReceiptMode,
+    noRedirect = false
 }: IProps) {
     const dispatch = useDispatch();
     const modal = useSelector(
         (state: IApplicationState) => state.successModal.modal
     );
 
+    const [isVisible, setIsVisible] = useState(false);
+
     const onPress = (route: 'home' | 'receipt') => {
         dispatch(closeSuccessModalAction());
         setTimeout(() => {
             if (route === 'home') {
+                if (noRedirect) return;
                 navigation.reset({
                     index: 0,
                     routes: [{ name: 'General' }]
@@ -41,9 +46,13 @@ export default function TransactionSuccessModal({
         }, 400);
     };
 
+    useEffect(() => {
+        setIsVisible(modal.visible);
+    }, [modal, modal.visible])
+
     return (
         <Modal
-            isVisible={modal.visible}
+            isVisible={isVisible}
             hasBackdrop
             backdropColor="#000"
             backdropOpacity={0.4}

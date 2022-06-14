@@ -14,8 +14,8 @@ import { removeTokenAction } from '../auth/actions';
 // Utils
 import callWrapperService from '../../../utils/callWrapperService';
 
-const requestBalance = (accountId: string) => {
-    return api.get(`/balance/${accountId}`);
+const requestBalance = () => {
+    return api.get(`/balance`);
 };
 
 // function* getBalance() {
@@ -63,10 +63,7 @@ const requestBalance = (accountId: string) => {
 // }
 
 function* getBalance() {
-    const accountId: string | null = yield select(
-        (state: IApplicationState) => state.auth.accountId
-    );
-    const resp = yield callWrapperService(requestBalance, accountId);
+    const resp = yield callWrapperService(requestBalance);
 
     // console.log('balance', JSON.stringify(resp, null, 2));
 

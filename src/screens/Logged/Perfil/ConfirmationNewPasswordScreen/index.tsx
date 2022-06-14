@@ -8,10 +8,8 @@ import InputBlocks from '../../../../components/PasswordInputs';
 
 // Store
 import { IApplicationState } from '../../../../store/types';
-import {
-    changePasswordStateAction,
-    updateAccessPasswordAction
-} from '../../../../store/ducks/password/actions';
+import { changePasswordStateAction } from '../../../../store/ducks/password/actions';
+import { sendSMSPasswordAction } from '../../../../store/ducks/phoneValidation/actions';
 
 // Style
 import colors from '../../../../styles/colors';
@@ -38,13 +36,23 @@ const ConfirmationNewPasswordScreen: React.FC<PerfilStackNavigationProps<
         shallowEqual
     );
 
+    const phoneNumber = useSelector(
+        (state: IApplicationState) =>
+            state.user.data.account.mobilePhone.phoneNumber
+    );
+
     const [validation, setValidation] = useState('');
 
     const onPress = () => {
         navigation.push('Perfil', {
             screen: 'ValidateAccess',
             params: {
-                action: () => dispatch(updateAccessPasswordAction())
+                action: () =>
+                    dispatch(
+                        sendSMSPasswordAction(false, navigation, phoneNumber)
+                    ),
+                loadingPassword: loading,
+                fromAccessPassword: true
             }
         });
     };

@@ -4,12 +4,16 @@ import {
     SEND_PHONE_SMS,
     SEND_PHONE_SMS_SUCCESS,
     SEND_PHONE_SMS_FAILURE,
+    SEND_PHONE_SMS_PASSWORD,
+    SEND_PHONE_SMS_PASSWORD_SUCCESS,
+    SEND_PHONE_SMS_PASSWORD_FAILURE,
     VALIDATE_SMS_CODE,
     VALIDATE_SMS_CODE_SUCCESS,
     VALIDATE_SMS_CODE_FAILURE,
     SHOW_SMS_MODAL,
     CLOSE_SMS_MODAL,
-    CLEAR_PHONE_VALIDATION_STATE
+    CLEAR_PHONE_VALIDATION_STATE,
+    UPDATE_MS_TIME_WAIT
 } from './types';
 
 export type SendSMSAction = {
@@ -21,6 +25,14 @@ export type SendSMSAction = {
     perfil?: boolean;
     phone?: string;
     routeContext?: string;
+};
+
+export type SendSMSPasswordAction = {
+    type: typeof SEND_PHONE_SMS_PASSWORD;
+    isResend: boolean;
+    navigation: any;
+    phone?: string;
+    isPasswordTransaction?: boolean;
 };
 
 export type ValidateSMSCodeAction = {
@@ -44,8 +56,23 @@ type DidSendSMSFailAction = {
     type: typeof SEND_PHONE_SMS_FAILURE;
 };
 
+type DidSendSMSPasswordFailAction = {
+    type: typeof SEND_PHONE_SMS_PASSWORD_FAILURE;
+};
+
 type DidSendSMSSucceedAction = {
     type: typeof SEND_PHONE_SMS_SUCCESS;
+    timeToWait: number | undefined;
+    phoneNumber: string;
+};
+
+type UpdateSmsTimeToWaitAction = {
+    type: typeof UPDATE_MS_TIME_WAIT;
+    timeToWait: number | undefined;
+};
+
+type DidSendSMSPasswordSucceedAction = {
+    type: typeof SEND_PHONE_SMS_PASSWORD_SUCCESS;
     timeToWait: number | undefined;
     phoneNumber: string;
 };
@@ -64,11 +91,15 @@ type ClearPhoneValidationStateAction = {
 
 export type PhoneValidationActions =
     | SendSMSAction
+    | SendSMSPasswordAction
     | ValidateSMSCodeAction
     | ShowSMSModalAction
     | CloseSMSModalAction
     | DidSendSMSFailAction
+    | DidSendSMSPasswordFailAction
     | DidSendSMSSucceedAction
+    | DidSendSMSPasswordSucceedAction
+    | UpdateSmsTimeToWaitAction
     | DidValidateSMSFailAction
     | DidValidateSMSSucceedAction
     | ClearPhoneValidationStateAction;
@@ -88,6 +119,19 @@ export const sendSMSAction = (
     perfil,
     phone,
     routeContext
+});
+
+export const sendSMSPasswordAction = (
+    isResend: boolean,
+    navigation: any,
+    phone?: string,
+    isPasswordTransaction?: boolean
+): SendSMSPasswordAction => ({
+    type: 'SEND_PHONE_SMS_PASSWORD',
+    isResend,
+    navigation,
+    phone,
+    isPasswordTransaction
 });
 
 export const validateSMSCodeAction = (
@@ -117,11 +161,32 @@ export const didSendSMSFailAction = (): DidSendSMSFailAction => ({
     type: 'SEND_PHONE_SMS_FAILURE'
 });
 
+export const didSendSMSPasswordFailAction =
+    (): DidSendSMSPasswordFailAction => ({
+        type: 'SEND_PHONE_SMS_PASSWORD_FAILURE'
+    });
+
 export const didSendSMSSucceedAction = (
     timeToWait: number | undefined,
     phoneNumber: string
 ): DidSendSMSSucceedAction => ({
     type: 'SEND_PHONE_SMS_SUCCESS',
+    timeToWait,
+    phoneNumber
+});
+
+export const updateSmsTimeToWait = (
+    timeToWait: number | undefined
+): UpdateSmsTimeToWaitAction => ({
+    type: 'UPDATE_MS_TIME_WAIT',
+    timeToWait
+});
+
+export const didSendSMSPasswordSucceedAction = (
+    timeToWait: number | undefined,
+    phoneNumber: string
+): DidSendSMSPasswordSucceedAction => ({
+    type: 'SEND_PHONE_SMS_PASSWORD_SUCCESS',
     timeToWait,
     phoneNumber
 });

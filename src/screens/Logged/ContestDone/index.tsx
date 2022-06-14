@@ -28,10 +28,7 @@ const ContestDone: React.FC<GeneralStackNavigationProps<'ContestDone'>> = ({
                     </Text>
                     <Text style={styles.description}>
                         Agora iremos analisar e entraremos{'\n'} em contato com
-                        você o mais breve.
-                    </Text>
-                     <Text style={styles.description}>
-                        Para sua segurança seu cartão foi {'\n'} bloqueado temporariamente 
+                        você o mais breve
                     </Text>
                 </View>
                 <ActionButton

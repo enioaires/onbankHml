@@ -27,6 +27,7 @@ import { useFetch } from '../../../../../utils/useFetch';
 import LinearGradientButton from '../../../../../components/LinearGradientButton/LinearGradientButton';
 import { IApplicationState } from '../../../../../store/types';
 import PageContainer from '../../Payment/components/PageContainer/PageContainer';
+// import PasswordModal from '../../Payment/components/PasswordModal/PasswordModal';
 
 const textIcon = require('../../../../../../assets/icons/text.png');
 
@@ -42,6 +43,7 @@ const aliasTypes = {
 const PaymentAmount = (props: any) => {
     const { route, navigation } = props;
     const { params } = route;
+    // const [togglePasswordModal, setTogglePasswordModal] = useState(false);
     const [amount, setAmount] = useState(params?.amount || '');
     const [disabledButton, setDisabledButton] = useState(false);
     const dispatch = useDispatch();
@@ -63,6 +65,9 @@ const PaymentAmount = (props: any) => {
         console.log('validade amount', parseCurrency(amount));
     }, [amount]);
 
+    // const handleTogglePasswordModal = () => {
+    //     setTogglePasswordModal(!togglePasswordModal);
+    // };
     const { doFetch: makePixTransfer, isFetching: loadingTransfer } = useFetch(
         'pix/withdraw',
         'post',
@@ -71,7 +76,9 @@ const PaymentAmount = (props: any) => {
                 dispatch(onGetUserData());
                 navigation.pop();
                 navigation.reset({
-                    routes: [{ name: 'Panel' }]
+                    routes: [
+                        { name: 'Panel' }
+                    ]
                 });
                 navigation.navigate('PaymentSuccessPanel', {
                     transactionId: data.transactionId
@@ -315,6 +322,15 @@ const PaymentAmount = (props: any) => {
                     onPress={handleNextStep}
                 />
             </KeyboardAvoidingView>
+
+            {/* {togglePasswordModal && (
+                <PasswordModal
+                    isLoading={loadingTransfer}
+                    onSuccess={handleMakePixTransfer}
+                    isOpen={togglePasswordModal}
+                    onClose={handleTogglePasswordModal}
+                />
+            )} */}
         </PageContainer>
     );
 };

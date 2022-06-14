@@ -2,13 +2,10 @@ import React, { useEffect } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useDispatch, useSelector } from 'react-redux';
 import { View } from 'react-native';
-import Pushwoosh from 'pushwoosh-react-native-plugin';
-
 // Store
 import {
     setDidAutoLoginAction,
     saveUserAuthAction,
-    checkCodepushEnvironmentAction,
     saveUserInfoAction
 } from '../../store/ducks/auth/actions';
 import { IApplicationState } from '../../store/types';
@@ -30,7 +27,7 @@ const AutoLogin: React.FC = () => {
             const accountHolderId = await AsyncStorage.getItem(
                 'accountHolderId'
             );
-            const accountId = await AsyncStorage.getItem('accountId');
+            // const accountId = await AsyncStorage.getItem('accountId');
             const userName = await AsyncStorage.getItem('userName');
             const userAccount = await AsyncStorage.getItem('userAccount');
             const userBranch = await AsyncStorage.getItem('userBranch');
@@ -45,7 +42,6 @@ const AutoLogin: React.FC = () => {
                 saveUserAuthAction({
                     token,
                     accountHolderId: accountHolderId!,
-                    accountId: accountId!,
                     revalidated: false
                 })
             );

@@ -94,7 +94,7 @@ const OptionsScreen: React.FC<
                     >
                         <TouchableOpacity
                             activeOpacity={0.8}
-                            onPress={() => Linking.openURL('tel:4007 2394')}
+                            onPress={() => Linking.openURL('tel:0800 010 0800')}
                         >
                             <Text
                                 allowFontScaling={false}
@@ -111,7 +111,7 @@ const OptionsScreen: React.FC<
                         </Text>
                         <TouchableOpacity
                             activeOpacity={0.8}
-                            onPress={() => Linking.openURL('tel:0800 010 0800')}
+                            onPress={() => Linking.openURL('tel:4007 2394')}
                         >
                             <Text
                                 allowFontScaling={false}

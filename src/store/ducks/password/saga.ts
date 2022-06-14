@@ -1,4 +1,5 @@
-import { all, takeLatest, put, select, call } from 'redux-saga/effects';
+import { Platform } from 'react-native';
+import { all, takeLatest, put, select, call, delay } from 'redux-saga/effects';
 import * as Keychain from 'react-native-keychain';
 
 // Api
@@ -21,14 +22,23 @@ import {
     validateAccessPasswordSuccessAction,
     ValidateTransactionPasswordAction,
     validateTransactionPasswordFailAction,
-    validateTransactionPasswordSuccessAction
+    validateTransactionPasswordSuccessAction,
+    UpdateAccessPasswordAction,
+    UpdateTransactionPasswordAction,
+    updatePasswordStartAction
 } from './actions';
+
+import { updateSmsTimeToWait } from '../phoneValidation/actions'; 
+
+import { closeSMSModalAction } from '../phoneValidation/actions';
+
 import { showSuccessModalAction } from '../successModal/actions';
 
 // Utils
 import callWrapperService from '../../../utils/callWrapperService';
 import { updateUserPhoneAction } from '../updateData/actions';
 import { saveKeychainCredentialsAction } from '../auth/actions';
+
 import password from '.';
 
 const requestUpdateAccessPassword = (payload: any) => {
@@ -47,36 +57,64 @@ const requestValidateAccessPassword = (payload: any) => {
     return api.post('/accessPassword/validate', payload);
 };
 
-function* updateAccess() {
-    const accountId: string | null = yield select(
-        (state: IApplicationState) => state.auth.accountId
-    );
+function* updateAccess(action: UpdateAccessPasswordAction) {
+    yield put(updatePasswordStartAction());
     const newAccessPassword: string = yield select(
         (state: IApplicationState) => state.password.newPassword
     );
 
-    const resp: any = yield callWrapperService(requestUpdateAccessPassword, {
-        accountId,
-        newAccessPassword
-    });
+    const callParameters = {
+        isCustomParameterModal: true,
+        returnErrorMessage: true,
+        // returnDelayErrorMessage: false
+        // beforeErrorAction: {
+        //     isYieldFunction: true,
+        //     actions: [closeSMSModalAction, didUpdateFailAction]
+        // },
+        // beforeErrorDelay: 650
+    };
 
-    // console.log('updateAccess', JSON.stringify(resp, null, 2));
+    const payload = {
+        newAccessPassword,
+        code: action.code
+    }
 
-    if (resp) {
-        yield put(didUpdateSucceedAction());
+    const resp: any = yield callWrapperService(requestUpdateAccessPassword,
+        payload,
+        callParameters
+    );
+
+    if (resp && !resp.error) {
+        yield all([put(didUpdateSucceedAction()), put(closeSMSModalAction())]);
+        // if (Platform.OS === 'ios') {
+        if (action.navigation) {
+            action.navigation.reset({
+                index: 0,
+                routes: [{ name: 'General' }]
+            });
+        }
+        yield delay(1250);
         yield put(
             showSuccessModalAction('Senha de acesso alterada com sucesso.')
         );
+        // } else {
+        //     yield put(
+        //         showSuccessModalAction('Senha de acesso alterada com sucesso.')
+        //     );
+        // }
     } else {
-        yield put(didUpdateFailAction());
+        if (resp?.customErrorParams?.waitingTimeMs) {
+            yield put(
+                updateSmsTimeToWait(resp?.customErrorParams?.waitingTimeMs)
+            );
+        }
+        // && Platform.OS === 'ios'
+        yield put(didUpdateFailAction(resp?.message ? resp.message : ''));
     }
 }
 
-function* updateTransaction() {
-    const accountId: string | null = yield select(
-        (state: IApplicationState) => state.auth.accountId
-    );
-
+function* updateTransaction(action: UpdateTransactionPasswordAction) {
+    yield put(updatePasswordStartAction());
     const newTransactionPassword: string = yield select(
         (state: IApplicationState) => state.password.newPassword
     );
@@ -84,15 +122,39 @@ function* updateTransaction() {
         (state: IApplicationState) => state.user.data.client.cardBiz
     );
 
+    const callParameters = {
+        isCustomParameterModal: true,
+        returnErrorMessage: true,
+        // returnDelayErrorMessage: Platform.OS !== 'ios'
+        // beforeErrorAction: {
+        //     isYieldFunction: true,
+        //     actions: [closeSMSModalAction, didUpdateFailAction]
+        // },
+        // beforeErrorDelay: 650
+    };
+
+    const payload: {
+        newTransactionPassword: string;
+        code?: string | null | undefined;
+    } = { newTransactionPassword };
+    // if (!cardBiz)
+    payload.code = action.code;
+
     const resp: any = yield callWrapperService(
         requestUpdateTransactionPassword,
-        { accountId, newTransactionPassword }
+        payload,
+        callParameters
     );
 
-    // console.log('updateTransaction', JSON.stringify(resp, null, 2));
-
-    if (resp) {
-        yield put(didUpdateSucceedAction());
+    if (resp && !resp.error) {
+        yield all([put(didUpdateSucceedAction()), put(closeSMSModalAction())]);
+        if (action.navigation) {
+            action.navigation.reset({
+                index: 0,
+                routes: [{ name: 'General' }]
+            });
+        }
+        yield delay(1250);
         yield put(
             showSuccessModalAction(
                 `Senha ${
@@ -101,20 +163,19 @@ function* updateTransaction() {
             )
         );
     } else {
-        yield put(didUpdateFailAction());
+        if (resp?.customErrorParams?.waitingTimeMs)
+            yield put(
+                updateSmsTimeToWait(resp?.customErrorParams?.waitingTimeMs)
+            );
+        yield put(didUpdateFailAction(resp?.message ? resp.message : ''));
     }
 }
 
 function* validateTransactionPassword(
     action: ValidateTransactionPasswordAction
 ) {
-    const accountId: string | null = yield select(
-        (state: IApplicationState) => state.auth.accountId
-    );
-
     let payload: any = {
-        transactionPassword: action.password,
-        accountId
+        transactionPassword: action.password
     };
 
     if (action.url) {
@@ -134,7 +195,6 @@ function* validateTransactionPassword(
 
     if (resp) {
         yield put(validateTransactionPasswordSuccessAction());
-        console.log('CALLBACK', action.password);
         action.callback(action.password);
     } else {
         yield put(validateTransactionPasswordFailAction());
@@ -143,16 +203,11 @@ function* validateTransactionPassword(
 }
 
 function* validateAccessPassword(action: ValidateAccessPasswordAction) {
-    const accountId: string | null = yield select(
-        (state: IApplicationState) => state.auth.accountId
-    );
-
     const documentNumber = yield select(
         (state: IApplicationState) => state.user.data.client.taxIdentifier.taxId
     );
 
     const resp: any = yield callWrapperService(requestValidateAccessPassword, {
-        accountId,
         accessPassword: action.password
     });
 

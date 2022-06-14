@@ -30,22 +30,12 @@ import {
 // Utils
 import callWrapperService from '../../../utils/callWrapperService';
 
-const requestStatement = (
-    accountId: string,
-    startDate: string,
-    endDate: string
-) => {
-    return api.get(`/statements/${accountId}/${startDate}/${endDate}`);
+const requestStatement = (startDate: string, endDate: string) => {
+    return api.get(`/statements/${startDate}/${endDate}`);
 };
 
-const requestStatementWallet = (
-    accountId: string,
-    startDate: string,
-    endDate: string
-) => {
-    return api.get(
-        `/payment/creditcard/statement/${accountId}/${startDate}/${endDate}`
-    );
+const requestStatementWallet = (startDate: string, endDate: string) => {
+    return api.get(`/payment/creditcard/statement/${startDate}/${endDate}`);
 };
 
 const requestDebitChargeContest = (
@@ -287,10 +277,6 @@ function* getStatementMonthButtons() {
 }
 
 function* getStatementsData() {
-    const accountId: string | null = yield select(
-        (state: IApplicationState) => state.auth.accountId
-    );
-
     const [startDate, endDate, filter, lastWeekData] = yield select(
         (state: IApplicationState) => {
             return [
@@ -304,8 +290,8 @@ function* getStatementsData() {
 
     const resp: any = yield callWrapperService(
         filter === 'account'
-            ? () => requestStatement(accountId, startDate, endDate)
-            : () => requestStatementWallet(accountId, startDate, endDate)
+            ? () => requestStatement(startDate, endDate)
+            : () => requestStatementWallet(startDate, endDate)
     );
 
     // console.log(resp, accountId);

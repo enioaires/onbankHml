@@ -37,8 +37,8 @@ import {
 // Utils
 import callWrapperService from '../../../utils/callWrapperService';
 
-const requestGetCards = (accountId: string) => {
-    return api.get(`/card/${accountId}`);
+const requestGetCards = () => {
+    return api.get(`/card`);
 };
 
 const requestDeleteCard = (cardId: string) => {
@@ -49,8 +49,8 @@ const requestTurnDefaultCard = (cardId: string) => {
     return api.post(`/card/default/${cardId}`);
 };
 
-const requestAddNewCard = (accountId: string, payload: ICardInput) => {
-    return api.post(`/card/${accountId}`, payload);
+const requestAddNewCard = (payload: ICardInput) => {
+    return api.post(`/card/`, payload);
 };
 
 // function* validateAddCardInput(action: ChangeCardInputPayloadAction) {
@@ -363,11 +363,7 @@ function* deleteCard(action: RemoveCardAction) {
 }
 
 function* getCards() {
-    const accountId: string | null = yield select(
-        (state: IApplicationState) => state.auth.accountId
-    );
-
-    const resp = yield callWrapperService(requestGetCards, accountId);
+    const resp = yield callWrapperService(requestGetCards);
 
     if (resp) {
         yield put(didGetCardsSucceedAction(resp.data));
@@ -377,10 +373,6 @@ function* getCards() {
 }
 
 function* addNewCard(action: AddNewCardAction) {
-    const accountId: string | null = yield select(
-        (state: IApplicationState) => state.auth.accountId
-    );
-
     const clientType: string = yield select(
         (state: IApplicationState) => state.user.data.clientType
     );
@@ -415,11 +407,7 @@ function* addNewCard(action: AddNewCardAction) {
         }
     };
 
-    const resp = yield callWrapperService(
-        requestAddNewCard,
-        accountId,
-        payload
-    );
+    const resp = yield callWrapperService(requestAddNewCard, payload);
 
     if (resp) {
         yield put(getCardsAction());

@@ -22,6 +22,6 @@ export const Paragraph = styled.Text`
 export const ModalFooter = styled.View`
     border-top-width: 2px;
     border-color: #ffffff;
-    margin-top: 5px;
+    margin-top: 10px;
     padding: 16px 0;
 `;

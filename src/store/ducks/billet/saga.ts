@@ -13,17 +13,13 @@ import api from '../../../api';
 // Utils
 import callWrapperService from '../../../utils/callWrapperService';
 
-const requestGetBilletDetails = (accountId: string, billetNumber: string) => {
-    return api.get(`/account/${accountId}/billet/${billetNumber}`);
+const requestGetBilletDetails = (billetNumber: string) => {
+    return api.get(`billet/${billetNumber}/show`);
 };
 
 function* getBilletDetails(action: GetBilletDetailsAction) {
-    const accountId: string | null = yield select(
-        (state: IApplicationState) => state.auth.accountId
-    );
     const resp: any = yield callWrapperService(
         requestGetBilletDetails,
-        accountId,
         action.billetNumber
     );
 

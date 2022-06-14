@@ -11,7 +11,6 @@ const INITIAL_STATE: IAuthState = {
     didAutoLogin: false,
     deviceUUID: '',
     accountHolderId: null,
-    accountId: null,
     authenticationType: undefined,
     keychainCredentials: null,
     hmlMode: false,
@@ -41,7 +40,6 @@ const reducer: Reducer<IAuthState, AuthActions> = (
                 ...state,
                 token: action.payload.token,
                 accountHolderId: action.payload.accountHolderId,
-                accountId: action.payload.accountId,
                 revalidated: action.payload.revalidated
             };
         case 'SAVE_DEVICE_UUID':

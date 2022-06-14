@@ -34,7 +34,6 @@ const codePushOptions: CodePushOptions = {
 
 function App() {
     const notificationRef = useRef(null);
-
     const didMount = () => {
         Orientation.unlockAllOrientations();
         Orientation.lockToPortrait();

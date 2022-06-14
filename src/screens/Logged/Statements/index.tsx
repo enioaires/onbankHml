@@ -61,7 +61,6 @@ const withDrawIcon = require('../../../../assets/icons/withdraw-icon.png');
 const creditPaymentIcon = require('../../../../assets/icons/credit-payment-icon.png');
 const debitPaymentIcon = require('../../../../assets/icons/debit-payment-icon.png');
 const pixPaymentIcon = require('../../../../assets/icons/pix-gray.png');
-
 const eyeClose = require('../../../../assets/icons/new_icons/hide-white.png');
 const eyeOpen = require('../../../../assets/icons/new_icons/show-white.png');
 
@@ -429,7 +428,6 @@ const StatementScreen: React.FC<StatementStackNavigationProps<'Initial'>> = ({
                 return 'transfer';
             case 'Pagamento':
             case 'Pagamento Cartão Crédito':
-            case 'Depósito Boleto':
                 return 'billet';
             case 'QR Code':
                 return 'qrcode';
