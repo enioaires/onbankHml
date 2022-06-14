@@ -1,0 +1,85 @@
+// States Types
+import { ILoginState } from '../ducks/login/types';
+import { IUserDataState } from '../ducks/userData/types';
+import { IAuthState } from '../ducks/auth/types';
+import { IStatementState } from '../ducks/statement/types';
+import { IForgotPasswordState } from '../ducks/forgotPassword/types';
+import { ISignUpState } from '../ducks/signUp/types';
+import { IBalanceState } from '../ducks/balance/types';
+import { IPaymentState } from '../ducks/payment/types';
+import { IDepositState } from '../ducks/deposit/types';
+import { IReceiveState } from '../ducks/receive/types';
+import { IRechargeState } from '../ducks/recharge/types';
+import { IAddAddressState } from '../ducks/address/types';
+import { IAddressState } from '../ducks/addressNew/types';
+import { ISearchClientState } from '../ducks/searchClient/types';
+import { IPhoneValidationState } from '../ducks/phoneValidation/types';
+import { ISearchEmailState } from '../ducks/searchEmail/types';
+import { ISearchPhoneNumberState } from '../ducks/searchPhoneNumber/types';
+import { IResetPasswordState } from '../ducks/resetPassword/types';
+import { IBannerState } from '../ducks/banner/types';
+import { IDepositBilletsState } from '../ducks/depositBillets/types';
+import { IAddTransactionPasswordState } from '../ducks/addTransaction/types';
+import { ITransferState } from '../ducks/transfer/types';
+import { IReceiptState } from '../ducks/receipt/types';
+import { ISuccessModalState } from '../ducks/successModal/types';
+import { IWalletState } from '../ducks/wallet/types';
+import { IPasswordState } from '../ducks/password/types';
+import { IUpdateDataState } from '../ducks/updateData/types';
+import { ICardState } from '../ducks/card/types';
+import { IAlertState } from '../ducks/alert/types';
+import { IPromocodeState } from '../ducks/promocode/types';
+import { ITermsState } from '../ducks/terms/types';
+import { IBilletState } from '../ducks/billet/types';
+import { IQRCodeState } from '../ducks/qrcode/types';
+import { IPixPaymentState } from '../ducks/pixPayment/types';
+import { IRechargeServicesState } from '../ducks/rechargeServices/types';
+import { IInsuranceState } from '../ducks/insurance/types';
+import { ICashbackState } from '../ducks/cashback/types';
+
+export interface IApplicationState {
+    login: ILoginState;
+    user: IUserDataState;
+    auth: IAuthState;
+    statement: IStatementState;
+    forgotPassword: IForgotPasswordState;
+    signUp: ISignUpState;
+    balance: IBalanceState;
+    payment: IPaymentState;
+    deposit: IDepositState;
+    receive: IReceiveState;
+    recharge: IRechargeState;
+    address: IAddAddressState;
+    addressNew: IAddressState;
+    phoneValidation: IPhoneValidationState;
+    searchClient: ISearchClientState;
+    searchEmail: ISearchEmailState;
+    searchPhoneNumber: ISearchPhoneNumberState;
+    resetPassword: IResetPasswordState;
+    banner: IBannerState;
+    depositBillets: IDepositBilletsState;
+    addTransactionPassword: IAddTransactionPasswordState;
+    transfer: ITransferState;
+    receipt: IReceiptState;
+    successModal: ISuccessModalState;
+    wallet: IWalletState;
+    password: IPasswordState;
+    updateData: IUpdateDataState;
+    card: ICardState;
+    alert: IAlertState;
+    promocode: IPromocodeState;
+    terms: ITermsState;
+    billet: IBilletState;
+    qrcode: IQRCodeState;
+    pixPayment: IPixPaymentState;
+    rechargeServices: IRechargeServicesState;
+    insurance: IInsuranceState;
+    cashback: ICashbackState;
+}
+
+export interface IResponse<T> {
+    data?: T;
+    error?: string;
+    message?: string;
+    statusCode?: number;
+}

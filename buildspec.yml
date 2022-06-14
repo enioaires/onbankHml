@@ -1,0 +1,19 @@
+version: 0.2
+
+phases:
+    install:
+        runtime-versions:
+            docker: 18
+    pre_build:
+        commands:
+            - npm install -g appcenter-cli
+            - npm cache clean --force
+            - npm remove react-native-idwall-sdk
+            - npm ci
+            - npm install react-native-idwall-sdk  --scope=@idwall
+    build:
+        commands:
+            - export MOBILE_CENTER_CURRENT_APP="Onbank/Onbank-IOS"
+            - appcenter codepush release-react -d "$RELEASE_TYPE" -t $TARGET_VERSION -m --description "$DESCRIPTION"
+            - export MOBILE_CENTER_CURRENT_APP="Onbank/Onbank-Android"
+            - appcenter codepush release-react -d "$RELEASE_TYPE" -t $TARGET_VERSION -m --description "$DESCRIPTION"

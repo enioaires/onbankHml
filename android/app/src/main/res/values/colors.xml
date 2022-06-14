@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+    <color name="splash">#ffffff</color>
+    <color name="splash_color">#276484</color>
+
+    <color name="idwallPrimary">#39A2BB</color>
+    <color name="idwallTertiary">#3492AD</color>
+
+    <color name="idwallTextPrimary">#39A2BB</color>
+    <color name="idwallTextSecondary">#2E3A59</color>
+    <color name="idwallTextButton">#FFFFFF</color>
+
+    <color name="idwallSuccessPrimary">#85BC0D</color>
+    <color name="idwallSuccessSecondary">#F5FDCE</color>
+</resources>
