@@ -541,7 +541,7 @@
 				"${PODS_ROOT}/Target Support Files/Pods-Onbank-OnbankTests/Pods-Onbank-OnbankTests-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseMLVisionFaceModel/GoogleMVFaceDetectorResources.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseMLVisionTextModel/GoogleMVTextDetectorResources.bundle",
-				"${PODS_ROOT}/PushwooshInboxUI/Framework/PushwooshInboxBundle.bundle",
+				"${PODS_ROOT}/PushwooshInboxUIXCFramework/XCFramework/PushwooshInboxBundle.bundle",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
@@ -609,7 +609,7 @@
 				"${PODS_ROOT}/Target Support Files/Pods-Onbank/Pods-Onbank-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseMLVisionFaceModel/GoogleMVFaceDetectorResources.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseMLVisionTextModel/GoogleMVTextDetectorResources.bundle",
-				"${PODS_ROOT}/PushwooshInboxUI/Framework/PushwooshInboxBundle.bundle",
+				"${PODS_ROOT}/PushwooshInboxUIXCFramework/XCFramework/PushwooshInboxBundle.bundle",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
@@ -685,11 +685,15 @@
 				"${PODS_ROOT}/Target Support Files/Pods-Onbank-OnbankTests/Pods-Onbank-OnbankTests-frameworks.sh",
 				"${PODS_ROOT}/../../node_modules/@idwall/react-native-idwall-sdk/ios/IDwallToolkit.framework",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL-Universal/OpenSSL.framework/OpenSSL",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/PushwooshInboxUIXCFramework/PushwooshInboxUI.framework/PushwooshInboxUI",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/PushwooshXCFramework/Core/Pushwoosh.framework/Pushwoosh",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IDwallToolkit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PushwooshInboxUI.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Pushwoosh.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -727,11 +731,15 @@
 				"${PODS_ROOT}/Target Support Files/Pods-Onbank/Pods-Onbank-frameworks.sh",
 				"${PODS_ROOT}/../../node_modules/@idwall/react-native-idwall-sdk/ios/IDwallToolkit.framework",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL-Universal/OpenSSL.framework/OpenSSL",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/PushwooshInboxUIXCFramework/PushwooshInboxUI.framework/PushwooshInboxUI",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/PushwooshXCFramework/Core/Pushwoosh.framework/Pushwoosh",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IDwallToolkit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PushwooshInboxUI.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Pushwoosh.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
